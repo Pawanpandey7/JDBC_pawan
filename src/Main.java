@@ -1,23 +1,27 @@
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.ResultSet;
-import java.sql.Statement;
+import java.sql.*;
 
 //TIP To <b>Run</b> code, press <shortcut actionId="Run"/> or
 // click the <icon src="AllIcons.Actions.Execute"/> icon in the gutter.
 public class Main {
-    public static void main(String[] args) throws Exception {
-          Class.forName("com.mysql.cj.jdbc.Driver");
-          String sql = "select username from users where email = 'olicodes12@gmail.com'";
-          String url = "jdbc:mysql://localhost:3307/pawan_fashion_store";
-          String username="root";
-          String password= "";
-          Connection con = DriverManager.getConnection(url, username, password);
-          Statement st = con.createStatement();
-          ResultSet rs = st.executeQuery(sql);
-          rs.next();
-          String name = rs.getString(1);
-          System.out.println(name);
-          con.close();
+    public static void main(String[] args) {
+        try{
+            //establish a connection
+            String url = "jdbc:mysql://localhost:3307/test";
+            String username = "root";
+            String password = "";
+            Connection conn = DriverManager.getConnection(url,username,password);
+
+            //create a statement
+            Statement st = conn.createStatement();
+
+            String delt = "DROP TABLE student2";
+            st.executeUpdate((delt));
+
+        }catch(SQLException sqlExcept){
+            System.out.println("Error:"+sqlExcept.getMessage());
         }
+    }
+
+
+
     }

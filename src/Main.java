@@ -4,22 +4,43 @@ import java.sql.*;
 // click the <icon src="AllIcons.Actions.Execute"/> icon in the gutter.
 public class Main {
     public static void main(String[] args) {
-        try{
-            //establish a connection
-            String url = "jdbc:mysql://localhost:3307/test";
-            String username = "root";
-            String password = "";
-            Connection conn = DriverManager.getConnection(url,username,password);
 
-            //create a statement
-            Statement st = conn.createStatement();
+       try{
+           // load the driver
+           // Class.forName(com.mysql.jdbc.Driver);
 
-            String delt = "DROP TABLE student2";
-            st.executeUpdate((delt));
+           //set up the connection
+           String url = "jdbc:mysql://localhost:3307/test";
+           Connection conn = DriverManager.getConnection(url,"root","");
 
-        }catch(SQLException sqlExcept){
-            System.out.println("Error:"+sqlExcept.getMessage());
-        }
+
+
+           //create a statement
+           String query = "INSERT INTO STUDENT(id,name,district,age) VALUES(?,?,?,?)";
+           PreparedStatement ps = conn.prepareStatement(query);
+
+           ps.setInt(1,7);
+           ps.setString(2,"Sumiran");
+           ps.setString(3,"Jhapa");
+           ps.setInt(4,24);
+
+           int affectedRows = ps.executeUpdate();
+           System.out.println(affectedRows + "rows affected");
+           ps.close();
+           conn.close();
+
+
+
+
+           //execute a statement
+
+       }catch(SQLException except){
+           System.out.println(except.getMessage());
+
+       }
+
+
+
     }
 
 

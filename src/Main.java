@@ -1,48 +1,70 @@
+import java.awt.*;
+import javax.swing.*;
+import java.awt.event.*;
 import java.sql.*;
 
-//TIP To <b>Run</b> code, press <shortcut actionId="Run"/> or
-// click the <icon src="AllIcons.Actions.Execute"/> icon in the gutter.
-public class Main {
-    public static void main(String[] args) {
+public class Main implements ActionListener{
+        JLabel titleL,genreL,languageL,lengthL;
+        JTextField titleF,genreF,languageF,lengthF;
+        JButton okButton;
+        public Main(){
+          JFrame fr = new JFrame("lets see");
+          fr.setLayout(new GridLayout(5,2,10,10));
 
-       try{
-           // load the driver
-           // Class.forName(com.mysql.jdbc.Driver);
+          titleL = new JLabel("title");
+          titleF = new JTextField(20);
+          fr.add(titleL);
+          fr.add(titleF);
+          genreL = new JLabel("genre");
+          genreF = new JTextField(20);
+          fr.add(genreL);
+          fr.add(genreF);
+          languageL = new JLabel("language");
+          languageF = new JTextField(20);
+          fr.add(languageL);
+          fr.add(languageF);
+          lengthL = new JLabel("length");
+          lengthF = new JTextField(20);
+          fr.add(lengthL);
+          fr.add(lengthF);
 
-           //set up the connection
-           String url = "jdbc:mysql://localhost:3307/test";
-           Connection conn = DriverManager.getConnection(url,"root","");
+          okButton = new JButton("OK");
+          okButton.addActionListener(this);
+          fr.add(okButton);
 
-
-
-           //create a statement
-           String query = "INSERT INTO STUDENT(id,name,district,age) VALUES(?,?,?,?)";
-           PreparedStatement ps = conn.prepareStatement(query);
-
-           ps.setInt(1,7);
-           ps.setString(2,"Sumiran");
-           ps.setString(3,"Jhapa");
-           ps.setInt(4,24);
-
-           int affectedRows = ps.executeUpdate();
-           System.out.println(affectedRows + "rows affected");
-           ps.close();
-           conn.close();
-
-
-
-
-           //execute a statement
-
-       }catch(SQLException except){
-           System.out.println(except.getMessage());
-
-       }
-
-
+          fr.setSize(500,500);
+          fr.setVisible(true);
+          fr.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
     }
+    public void actionPerformed(ActionEvent e)
+    {
+        if(e.getSource() ==okButton)
+        {
+            try{
+                //Class.forName("com.mysql.jdbc.Driver");
+                Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3307/test","root","");
+
+                String query = "INSERT INTO movie VALUES(?,?,?,?,?)";
+                PreparedStatement ps = conn.prepareStatement(query);
+                ps.setInt(1,1);
+                ps.setString(2,titleF.getText());
+                ps.setString(3,genreF.getText());
+                ps.setString(4,languageF.getText());
+                ps.setString(5,lengthF.getText());
+
+                ps.executeUpdate();
+                conn.close();
 
 
 
+            }catch(SQLException ex)
+            {
+                System.out.print(ex.getMessage());
+            }
+        }
     }
+    public static void main(String[] args){
+            new Main();
+    }
+}
